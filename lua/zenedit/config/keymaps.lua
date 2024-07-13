@@ -4,9 +4,7 @@ local map_set = vim.keymap.set
 
 local map = function(mode, lhs, rhs, desc, expr)
 	local opts = { noremap = true, silent = true, expr = false, desc = desc }
-	if expr then
-		opts.expr = true
-	end
+	if expr then opts.expr = true end
 	map_set(mode, lhs, rhs, opts)
 end
 

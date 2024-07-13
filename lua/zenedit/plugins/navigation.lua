@@ -8,13 +8,11 @@ return {
 		cmd = "Oil",
 		event = { "BufReadPost", "BufNewFile" },
 		init = function()
-			if vim.fn.argc() ~= 1 then
-				return
-			end
+      -- stylua: ignore
+			if vim.fn.argc() ~= 1 then return end
 			local stat = vim.uv.fs_stat(vim.fn.argv(0))
-			if stat and stat.type == "directory" then
-				pcall(require, "oil")
-			end
+      -- stylua: ignore
+			if stat and stat.type == "directory" then pcall(require, "oil") end
 		end,
 		opts = {
 			delete_to_trash = true,
@@ -26,6 +24,17 @@ return {
 	},
 	{
 		"ibhagwan/fzf-lua",
+		init = function()
+			local lazy = require("lazy")
+			vim.ui.select = function(...)
+				lazy.load({ plugins = { "fzf-lua" } })
+				return vim.ui.select(...)
+			end
+			vim.ui.input = function(...)
+				lazy.load({ plugins = { "fzf-lua" } })
+				return vim.ui.input(...)
+			end
+		end,
 		cmd = "FzfLua",
 		keys = {
 			{ "<c-p>", "<cmd>FzfLua files<cr>", desc = "find files" },
@@ -51,8 +60,7 @@ return {
 				fd_opts = "--type f --exclude node_modules --exclude .git --exclude vendor --exclude .next",
 			},
 		},
-		config = function()
-			require("fzf-lua").register_ui_select()
-		end,
+    -- stylua: ignore
+		config = function() require("fzf-lua").register_ui_select() end,
 	},
 }

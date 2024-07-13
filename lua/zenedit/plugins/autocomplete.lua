@@ -34,17 +34,15 @@ return {
 			local snip = vim.snippet
 			local cmap = cmp.mapping
 
-			local snip_jump = function(dir)
-				if snip.active({ direction = dir }) then
-					snip.jump(dir)
-				end
-			end
+      -- stylua: ignore
+      local snip_jump = function(dir)
+        if snip.active({ direction = dir }) then snip.jump(dir) end
+      end
 
 			cmp.setup({
 				snippet = {
-					expand = function(args)
-						snip.expand(args.body)
-					end,
+          -- stylua: ignore
+          expand = function(args) snip.expand(args.body) end,
 				},
 				completion = { completeopt = "menu, menuone, noinsert, preview, noselect" },
 				mapping = cmap.preset.insert({
