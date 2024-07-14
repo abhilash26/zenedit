@@ -33,6 +33,8 @@ return {
 			local cmp = require("cmp")
 			local snip = vim.snippet
 			local cmap = cmp.mapping
+			local icons = require("zenedit.icons").kind
+			local sname = { nvim_lsp = "LSP", nvim_lua = "nvim" }
 
       -- stylua: ignore
       local snip_jump = function(dir)
@@ -43,6 +45,17 @@ return {
 				snippet = {
           -- stylua: ignore
           expand = function(args) snip.expand(args.body) end,
+				},
+				formatting = {
+					format = function(entry, item)
+						local kind = item.kind
+            local entry_name = entry.source.name
+						local icon = icons[kind]
+						item.kind = string.format("%s %s", icon, kind) or kind
+            local menu_name = sname[entry_name] or entry_name
+            item.menu = string.format("[%s]", menu_name)
+						return item
+					end,
 				},
 				completion = { completeopt = "menu, menuone, noinsert, preview, noselect" },
 				mapping = cmap.preset.insert({
