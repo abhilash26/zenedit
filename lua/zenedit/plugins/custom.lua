@@ -1,14 +1,14 @@
 return {
   {
     dir = "~/dev/zenline.nvim/",
+    lazy = false,
     name = "zenline",
-    event = { "BufReadPost", "BufNewFile" },
     opts = {},
   },
   {
     dir = "~/dev/zenbufline.nvim/",
+    lazy = false,
     name = "zenbufline",
-    event = { "BufReadPost", "BufNewFile" },
     opts = {},
   }
 }
