@@ -27,7 +27,7 @@ return {
 							},
 						},
 					},
-					tailwindcss = { "react", "svelte", "html" },
+					tailwindcss = { "react", "svelte", "vue", "html" },
 					tsserver = {
 						initializationOptions = { preferences = { includeCompletionsForModuleExports = false } },
 					},
@@ -58,20 +58,12 @@ return {
 					{ "n", "<leader>ca", fzf.lsp_code_actions, { desc = "[C]ode [A]ction" } },
 					{ "n", "<F2>", vim.lsp.buf.rename, { desc = "Rename" } },
 				},
+	  	-- stylua: ignore
 				ensure_installed = {
 					-- Linters
-					"eslint_d",
-					"phpcs",
-					"pylint",
-					"shellcheck",
+					"eslint_d", "phpcs", "pylint", "shellcheck",
 					-- Formatters
-					"black",
-					"gofumpt",
-					"isort",
-					"php-cs-fixer",
-					"prettierd",
-					"shfmt",
-					"stylua",
+					"black", "gofumpt", "isort", "php-cs-fixer", "prettierd", "shfmt", "stylua",
 				},
 			}
 		end,
@@ -86,7 +78,7 @@ return {
 			end
 
 			-- Diagnostic settings
-			diagnostic.config(opts.diagnostics)
+			diagnostic.config(vim.deepcopy(opts.diagnostics))
 
 			-- Keymap setup for diagnostics
 			for _, keymap in ipairs(opts.diagnostic_keymaps) do
@@ -116,11 +108,12 @@ return {
 
 			-- Mason setup for tools
 			require("mason").setup()
-			require("mason-tool-installer").setup({ ensure_installed = opts.ensure_installed })
+			require("mason-tool-installer").setup({
+				ensure_installed = vim.deepcopy(opts.ensure_installed),
+			})
 
 			-- Mason LSP setup
 			require("mason-lspconfig").setup({
-				ensure_installed = opts.ensure_installed,
 				handlers = {
 					function(server_name)
 						local server = opts.servers[server_name] or {}

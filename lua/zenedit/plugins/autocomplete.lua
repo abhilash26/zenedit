@@ -49,11 +49,11 @@ return {
 				formatting = {
 					format = function(entry, item)
 						local kind = item.kind
-            local entry_name = entry.source.name
+						local entry_name = entry.source.name
 						local icon = icons[kind]
 						item.kind = string.format("%s %s", icon, kind) or kind
-            local menu_name = sname[entry_name] or entry_name
-            item.menu = string.format("[%s]", menu_name)
+						local menu_name = sname[entry_name] or entry_name
+						item.menu = string.format("[%s]", menu_name)
 						return item
 					end,
 				},
